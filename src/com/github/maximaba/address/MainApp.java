@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.github.maximaba.address.model.Person;
 import com.github.maximaba.address.view.PersonEditDialogController;
 import com.github.maximaba.address.view.PersonOverviewController;
+import com.github.maximaba.address.view.RootLayoutController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -47,6 +48,11 @@ public class MainApp extends Application {
             // Отображаем сцену, содержащую корневой макет.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
+
+            // Даём контроллеру(RootLayoutController) доступ к главному прилодению.
+            RootLayoutController controller = loader.getController();
+            controller.setMainApp(this);
+
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -60,7 +66,7 @@ public class MainApp extends Application {
             loader.setLocation(MainApp.class.getResource("view/PersonOverview.fxml"));
             AnchorPane personOverview = (AnchorPane) loader.load();
 
-            // Даём контроллеру доступ к главному приложению.
+            // Даём контроллеру(PersonOverviewController) доступ к главному приложению.
             PersonOverviewController controller = loader.getController();
             controller.setMainApp(this);
 

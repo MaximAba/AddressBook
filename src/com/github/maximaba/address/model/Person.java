@@ -1,7 +1,9 @@
 package com.github.maximaba.address.model;
 
+import com.github.maximaba.address.util.LocalDateAdapter;
 import javafx.beans.property.*;
 
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 
 public class Person {
@@ -12,6 +14,7 @@ public class Person {
     private final IntegerProperty postalCode;
     private final StringProperty city;
     private final ObjectProperty<LocalDate> birthday;
+    private final StringProperty phoneNumber;
 
 
     public Person() {
@@ -23,12 +26,14 @@ public class Person {
         this.lastName = new SimpleStringProperty(lastName);
 
         // Какие-то фиктивные начальные данные.
-        this.street = new SimpleStringProperty("-");
+        this.street = new SimpleStringProperty(null);
         this.postalCode = new SimpleIntegerProperty(0);
-        this.city = new SimpleStringProperty("-");
-        this.birthday = new SimpleObjectProperty<LocalDate>(LocalDate.of(1900, 1, 1));
+        this.city = new SimpleStringProperty(null);
+        this.birthday = new SimpleObjectProperty<>(null);
+        this.phoneNumber = new SimpleStringProperty(null);
 
     }
+
 
     public String getFirstName() {
         return firstName.get();
@@ -90,6 +95,7 @@ public class Person {
         this.city.set(city);
     }
 
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     public LocalDate getBirthday() {
         return birthday.get();
     }
@@ -100,5 +106,17 @@ public class Person {
 
     public void setBirthday(LocalDate birthday) {
         this.birthday.set(birthday);
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber.get();
+    }
+
+    public StringProperty phoneNumberProperty() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber.set(phoneNumber);
     }
 }

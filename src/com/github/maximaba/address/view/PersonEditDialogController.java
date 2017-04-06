@@ -2,6 +2,7 @@ package com.github.maximaba.address.view;
 
 import com.github.maximaba.address.model.Person;
 import com.github.maximaba.address.util.DateUtil;
+import com.github.maximaba.address.util.PhoneNumberUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -27,7 +28,8 @@ public class PersonEditDialogController {
     private TextField cityField;
     @FXML
     private TextField birthdayField;
-
+    @FXML
+    private TextField phoneNumberField;
 
     private Stage dialogStage;
     private Person person;
@@ -57,12 +59,12 @@ public class PersonEditDialogController {
         cityField.setText(person.getCity());
         birthdayField.setText(DateUtil.format(person.getBirthday()));
         birthdayField.setPromptText("dd.mm.yyyy");
+        phoneNumberField.setText(person.getPhoneNumber());
     }
 
     /**
-     * Returns true, если пользователь кликнул OK, в другом случае false.
      *
-     * @return
+     * @return true, если пользователь кликнул OK, в другом случае false.
      */
     public boolean isOkClicked() {
         return okClicked;
@@ -82,6 +84,8 @@ public class PersonEditDialogController {
 
             //см. util.DateUtil
             person.setBirthday(DateUtil.parse(birthdayField.getText()));
+
+            person.setPhoneNumber(PhoneNumberUtil.formatTelephoneNumber(phoneNumberField.getText()));
 
             okClicked = true;
             dialogStage.close();
@@ -137,6 +141,17 @@ public class PersonEditDialogController {
             }
         }
 
+        if (phoneNumberField.getText() == null || phoneNumberField.getText().length() != 11) {
+            errorMessage += "Please enter 11 digits of telephone number!\n";
+        }else {
+            try {
+                // пытаемся преобразовать почтовый код в long, так как номер 9ти значный.
+                Long.parseLong(phoneNumberField.getText());
+            }catch (NumberFormatException e){
+                errorMessage += "Phone number must consist only of digits!\n";
+            }
+        }
+
         if (errorMessage.length() == 0) {
             return true;
         } else {
@@ -148,7 +163,6 @@ public class PersonEditDialogController {
             alert.setContentText(errorMessage);
 
             alert.showAndWait();
-
             return false;
         }
     }

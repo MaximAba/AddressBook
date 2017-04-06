@@ -28,6 +28,8 @@ public class PersonOverviewController {
     private Label cityLabel;
     @FXML
     private Label birthdayLabel;
+    @FXML
+    private Label phoneNumberLabel;
 
     // Ссылка на главное приложение.
     private MainApp mainApp;
@@ -78,6 +80,7 @@ public class PersonOverviewController {
             postalCodeLabel.setText(Integer.toString(person.getPostalCode()));
             cityLabel.setText(person.getCity());
             birthdayLabel.setText(DateUtil.format(person.getBirthday()));
+            phoneNumberLabel.setText(person.getPhoneNumber());
         } else {
             // Если Person = null, то убираем весь текст.
             firstNameLabel.setText("");
@@ -86,6 +89,7 @@ public class PersonOverviewController {
             postalCodeLabel.setText("");
             cityLabel.setText("");
             birthdayLabel.setText("");
+            phoneNumberLabel.setText("");
         }
     }
     /**

@@ -26,26 +26,26 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="First Name:" />
-            <Label text="Last Name:" GridPane.rowIndex="1" />
-            <Label text="Street:" GridPane.rowIndex="2" />
-            <Label text="City:" GridPane.rowIndex="3" />
-            <Label text="Postal Code:" GridPane.rowIndex="4" />
-            <Label text="Birthday:" GridPane.rowIndex="5" />
+            <Label text="%key.label.firstname" />
+            <Label text="%key.label.lastname" GridPane.rowIndex="1" />
+            <Label text="%key.label.street" GridPane.rowIndex="2" />
+            <Label text="%key.label.city" GridPane.rowIndex="3" />
+            <Label text="%key.label.postalCode" GridPane.rowIndex="4" />
+            <Label text="%key.label.birthday" GridPane.rowIndex="5" />
             <TextField fx:id="firstNameField" GridPane.columnIndex="1" />
             <TextField fx:id="lastNameField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="streetField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="cityField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <TextField fx:id="postalCodeField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <TextField fx:id="birthdayField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <Label text="Phone Number:" GridPane.rowIndex="6" />
+            <Label text="%key.label.phone" GridPane.rowIndex="6" />
             <TextField fx:id="phoneNumberField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
          </children>
       </GridPane>
       <ButtonBar layoutX="186.0" layoutY="216.0" prefHeight="34.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="186.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="216.0">
         <buttons>
-          <Button mnemonicParsing="false" onAction="#handleOk" text="OK" />
-            <Button mnemonicParsing="false" onAction="#handleCancel" text="Cancel" />
+          <Button mnemonicParsing="false" onAction="#handleOk" text="%key.button.ok" />
+            <Button mnemonicParsing="false" onAction="#handleCancel" text="%key.button.cancel" />
         </buttons>
       </ButtonBar>
    </children>

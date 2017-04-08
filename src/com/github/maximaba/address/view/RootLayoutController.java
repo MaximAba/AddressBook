@@ -2,15 +2,19 @@ package com.github.maximaba.address.view;
 
 import com.github.maximaba.address.MainApp;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 
-public class RootLayoutController {
+public class RootLayoutController implements Initializable {
 
     private MainApp mainApp;
+    private ResourceBundle resourceBundle;
 
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
@@ -25,6 +29,13 @@ public class RootLayoutController {
         mainApp.setPersonFilePath(null);
     }
 
+    /**
+     * Передаем ResourceBundle из MainApp.
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        this.resourceBundle = resources;
+    }
     /**
      * Открывает FileChooser, чтобы пользователь имел возможность
      * выбрать адресную книгу для загрузки.
@@ -93,8 +104,8 @@ public class RootLayoutController {
     @FXML
     private void handleAbout(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Address Book");
-        alert.setHeaderText("About");
+        alert.setTitle(resourceBundle.getString("key.menuItem.title"));
+        alert.setHeaderText(resourceBundle.getString("key.about"));
         alert.setContentText("Привет дорогой друг!:)");
 
         alert.showAndWait();

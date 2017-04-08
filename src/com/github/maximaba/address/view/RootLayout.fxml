@@ -33,18 +33,18 @@
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu mnemonicParsing="false" text="%key.menu.file">
             <items>
-                  <MenuItem mnemonicParsing="false" onAction="#handleNew" text="New" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleOpen" text="Open" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleSave" text="Save" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleSaveAs" text="Save as" />
-              <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Close" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleNew" text="%key.menuItem.new" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleOpen" text="%key.menuItem.open" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleSave" text="%key.menuItem.save" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleSaveAs" text="%key.menuItem.saveas" />
+              <MenuItem mnemonicParsing="false" onAction="#handleExit" text="%key.menuItem.close" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Help">
+          <Menu mnemonicParsing="false" text="%key.menu.help">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#handleAbout" text="About" />
+              <MenuItem mnemonicParsing="false" onAction="#handleAbout" text="%key.menuItem.about" />
             </items>
           </Menu>
         </menus>

@@ -2,6 +2,8 @@ package com.github.maximaba.address;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
 import com.github.maximaba.address.model.Person;
@@ -28,6 +30,7 @@ public class MainApp extends Application {
 
     private Stage primaryStage;
     private BorderPane rootLayout;
+    private ResourceBundle resourceBundle;
 
     /**
      * Данные, в виде наблюдаемого списка адресатов.
@@ -37,7 +40,8 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("Address Book");
+        this.resourceBundle = ResourceBundle.getBundle("com.github.maximaba.address.bundles.Locate", new Locale("ru"));
+        this.primaryStage.setTitle(resourceBundle.getString("key.menuItem.title"));
 
         initRootLayout();
         showPersonOverview();
@@ -51,6 +55,9 @@ public class MainApp extends Application {
             // Загружаем корневой макет из fxml файла.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
+            // Даем контроллеру доступ к ResourceBundle
+            loader.setResources(resourceBundle);
+
             rootLayout = (BorderPane) loader.load();
 
             // Отображаем сцену, содержащую корневой макет.
@@ -78,6 +85,9 @@ public class MainApp extends Application {
             // Загружаем сведения об адресатах.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/PersonOverview.fxml"));
+            // Даем контроллеру доступ к ResourceBundle
+            loader.setResources(resourceBundle);
+
             AnchorPane personOverview = (AnchorPane) loader.load();
 
             // Даём контроллеру(PersonOverviewController) доступ к главному приложению.
@@ -110,11 +120,14 @@ public class MainApp extends Application {
             // для всплывающего диалогового окна.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/PersonEditDialog.fxml"));
+            // Даем контроллеру доступ к ResourceBundle
+            loader.setResources(resourceBundle);
+
             AnchorPane page = (AnchorPane) loader.load();
 
             // Создаём диалоговое окно Stage.
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Edit Person");
+            dialogStage.setTitle(resourceBundle.getString("key.personEditDialog.title"));
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
@@ -164,12 +177,12 @@ public class MainApp extends Application {
             prefs.put("filePath", file.getPath());
 
             // Обновление заглавия сцены.
-            primaryStage.setTitle("Address Book - " + file.getName());
+            primaryStage.setTitle(resourceBundle.getString("key.menuItem.title") + " - " + file.getName());
         } else {
             prefs.remove("filePath");
 
             // Обновление заглавия сцены.
-            primaryStage.setTitle("Address Book");
+            primaryStage.setTitle(resourceBundle.getString("key.menuItem.title"));
         }
     }
 
@@ -196,9 +209,9 @@ public class MainApp extends Application {
 
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Could not load data");
-            alert.setContentText("Could not load data from file:\n" + file.getPath());
+            alert.setTitle(resourceBundle.getString("key.error"));
+            alert.setHeaderText(resourceBundle.getString("key.error.load.header"));
+            alert.setContentText(resourceBundle.getString("key.error.load.context") + "\n" + file.getPath());
 
             alert.showAndWait();
         }
@@ -227,9 +240,9 @@ public class MainApp extends Application {
             setPersonFilePath(file);
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Could not save data");
-            alert.setContentText("Could not save data to file:\n" + file.getPath());
+            alert.setTitle(resourceBundle.getString("key.error"));
+            alert.setHeaderText(resourceBundle.getString("key.error.save.header"));
+            alert.setContentText(resourceBundle.getString("key.error.save.context") + "\n" + file.getPath());
 
             alert.showAndWait();
         }

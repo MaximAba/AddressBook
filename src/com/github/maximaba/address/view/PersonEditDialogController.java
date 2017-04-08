@@ -4,17 +4,21 @@ import com.github.maximaba.address.model.Person;
 import com.github.maximaba.address.util.DateUtil;
 import com.github.maximaba.address.util.PhoneNumberUtil;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 
 /**
  * Окно для изменения информации об адресате.
  *
  */
-public class PersonEditDialogController {
+public class PersonEditDialogController implements Initializable {
 
     @FXML
     private TextField firstNameField;
@@ -34,6 +38,7 @@ public class PersonEditDialogController {
     private Stage dialogStage;
     private Person person;
     private boolean okClicked = false;
+    private ResourceBundle resourceBundle;
 
     /**
      * Устанавливает сцену для этого окна.
@@ -44,6 +49,10 @@ public class PersonEditDialogController {
         this.dialogStage = dialogStage;
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        this.resourceBundle = resources;
+    }
     /**
      * Задаёт адресата, информацию о котором будем менять.
      *
@@ -109,46 +118,46 @@ public class PersonEditDialogController {
         String errorMessage = "";
 
         if (firstNameField.getText() == null || firstNameField.getText().length() == 0) {
-            errorMessage += "No valid first name!\n";
+            errorMessage += resourceBundle.getString("key.error.edit.context.firstName") + "\n";
         }
         if (lastNameField.getText() == null || lastNameField.getText().length() == 0) {
-            errorMessage += "No valid last name!\n";
+            errorMessage += resourceBundle.getString("key.error.edit.context.lastName") + "\n";
         }
         if (streetField.getText() == null || streetField.getText().length() == 0) {
-            errorMessage += "No valid street!\n";
+            errorMessage += resourceBundle.getString("key.error.edit.context.street") + "\n";
         }
 
         if (postalCodeField.getText() == null || postalCodeField.getText().length() == 0) {
-            errorMessage += "No valid postal code!\n";
+            errorMessage += resourceBundle.getString("key.error.edit.context.postalCode")+ "\n";
         } else {
             // пытаемся преобразовать почтовый код в int.
             try {
                 Integer.parseInt(postalCodeField.getText());
             } catch (NumberFormatException e) {
-                errorMessage += "No valid postal code (must be an integer)!\n";
+                errorMessage += resourceBundle.getString("key.error.edit.context.postalCodeNFE") + "\n";
             }
         }
 
         if (cityField.getText() == null || cityField.getText().length() == 0) {
-            errorMessage += "No valid city!\n";
+            errorMessage += resourceBundle.getString("key.error.edit.context.city") + "\n";
         }
 
         if (birthdayField.getText() == null || birthdayField.getText().length() == 0) {
-            errorMessage += "No valid birthday!\n";
+            errorMessage += resourceBundle.getString("key.error.edit.context.birthday") + "\n";
         } else {
             if (!DateUtil.validDate(birthdayField.getText())) {
-                errorMessage += "No valid birthday. Use the format dd.mm.yyyy!\n";
+                errorMessage += resourceBundle.getString("key.error.edit.context.birthdayNPE") + "\n";
             }
         }
 
         if (phoneNumberField.getText() == null || phoneNumberField.getText().length() != 11) {
-            errorMessage += "Please enter 11 digits of telephone number!\n";
+            errorMessage += resourceBundle.getString("key.error.edit.context.phoneLength") + "\n";
         }else {
             try {
                 // пытаемся преобразовать почтовый код в long, так как номер 9ти значный.
                 Long.parseLong(phoneNumberField.getText());
             }catch (NumberFormatException e){
-                errorMessage += "Phone number must consist only of digits!\n";
+                errorMessage += resourceBundle.getString("key.error.edit.context.phoneNFE") + "\n";
             }
         }
 
@@ -158,8 +167,8 @@ public class PersonEditDialogController {
             // Показываем сообщение об ошибке.
             Alert alert = new Alert(AlertType.ERROR);
             alert.initOwner(dialogStage);
-            alert.setTitle("Invalid Fields");
-            alert.setHeaderText("Please correct invalid fields");
+            alert.setTitle(resourceBundle.getString("key.error"));
+            alert.setHeaderText(resourceBundle.getString("key.error.edit.header"));
             alert.setContentText(errorMessage);
 
             alert.showAndWait();

@@ -3,13 +3,17 @@ import com.github.maximaba.address.MainApp;
 import com.github.maximaba.address.model.Person;
 import com.github.maximaba.address.util.DateUtil;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class PersonOverviewController {
+
+public class PersonOverviewController implements Initializable {
     @FXML
     private TableView<Person> personTable;
     @FXML
@@ -34,12 +38,18 @@ public class PersonOverviewController {
     // Ссылка на главное приложение.
     private MainApp mainApp;
 
+    private ResourceBundle resourceBundle;
+
     /**
      * Инициализация класса-контроллера. Этот метод вызывается автоматически
      * после того, как fxml-файл будет загружен.
      */
-    @FXML
-    private void initialize() {
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        this.resourceBundle = resources;
+
         // Инициализация таблицы адресатов с двумя столбцами.
         firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
         lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
@@ -52,7 +62,6 @@ public class PersonOverviewController {
         personTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showPersonDetails(newValue));
     }
-
     /**
      * Вызывается главным приложением, которое даёт на себя ссылку.
      *
@@ -104,9 +113,9 @@ public class PersonOverviewController {
             // Ничего не выбрано.
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.initOwner(mainApp.getPrimaryStage());
-            alert.setTitle("No Selection");
-            alert.setHeaderText("No Person Selected");
-            alert.setContentText("Please select a person in the table.");
+            alert.setTitle(resourceBundle.getString("key.error"));
+            alert.setHeaderText(resourceBundle.getString("key.error.nps.header"));
+            alert.setContentText(resourceBundle.getString("key.error.nps.context"));
 
             alert.showAndWait();
         }
@@ -142,11 +151,13 @@ public class PersonOverviewController {
             // Ничего не выбрано.
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.initOwner(mainApp.getPrimaryStage());
-            alert.setTitle("No Selection");
-            alert.setHeaderText("No Person Selected");
-            alert.setContentText("Please select a person in the table.");
+            alert.setTitle(resourceBundle.getString("key.error"));
+            alert.setHeaderText(resourceBundle.getString("key.error.nps.header"));
+            alert.setContentText(resourceBundle.getString("key.error.nps.context"));
 
             alert.showAndWait();
         }
     }
+
+
 }

@@ -105,8 +105,8 @@ public class RootLayoutController implements Initializable {
     private void handleAbout(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(resourceBundle.getString("key.menuItem.title"));
-        alert.setHeaderText(resourceBundle.getString("key.about"));
-        alert.setContentText("Привет дорогой друг!:)");
+        alert.setHeaderText(resourceBundle.getString("key.about.header"));
+        alert.setContentText(resourceBundle.getString("key.about.context"));
 
         alert.showAndWait();
     }

@@ -1,4 +1,5 @@
 package com.github.maximaba.address.view;
+
 import com.github.maximaba.address.MainApp;
 import com.github.maximaba.address.model.Person;
 import com.github.maximaba.address.util.DateUtil;

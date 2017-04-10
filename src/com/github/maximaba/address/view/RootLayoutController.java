@@ -97,6 +97,11 @@ public class RootLayoutController implements Initializable {
     }
 
     @FXML
+    private void handleSettings(){
+        mainApp.showSettings();
+    }
+
+    @FXML
     private void handleExit() {
         System.exit(0);
     }

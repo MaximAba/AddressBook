@@ -11,6 +11,7 @@ import com.github.maximaba.address.model.PersonListWrapper;
 import com.github.maximaba.address.view.PersonEditDialogController;
 import com.github.maximaba.address.view.PersonOverviewController;
 import com.github.maximaba.address.view.RootLayoutController;
+import com.github.maximaba.address.view.SettingsController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,23 +32,27 @@ public class MainApp extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
     private ResourceBundle resourceBundle;
-
+    private String language = "";
     /**
      * Данные, в виде наблюдаемого списка адресатов.
      */
     private ObservableList<Person> personData = FXCollections.observableArrayList();
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.resourceBundle = ResourceBundle.getBundle("com.github.maximaba.address.bundles.Locate", new Locale("ru"));
+        this.resourceBundle = ResourceBundle.getBundle("com.github.maximaba.address.bundles.Locate", new Locale(language));
         this.primaryStage.setTitle(resourceBundle.getString("key.menuItem.title"));
 
         initRootLayout();
         showPersonOverview();
     }
 
-    /**
+        /**
      * Инициализирует корневой макет.
      */
     public void initRootLayout() {
@@ -55,6 +60,7 @@ public class MainApp extends Application {
             // Загружаем корневой макет из fxml файла.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
+
             // Даем контроллеру доступ к ResourceBundle
             loader.setResources(resourceBundle);
 
@@ -65,10 +71,11 @@ public class MainApp extends Application {
             primaryStage.setScene(scene);
 
             // Даём контроллеру(RootLayoutController) доступ к главному прилодению.
-            RootLayoutController controller = loader.getController();
+            RootLayoutController controller = loader.getController();;
             controller.setMainApp(this);
 
             primaryStage.show();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -101,10 +108,6 @@ public class MainApp extends Application {
         }
     }
 
-
-    public static void main(String[] args) {
-        launch(args);
-    }
 
     /**
      * Открывает диалоговое окно для изменения деталей указанного адресата.
@@ -145,6 +148,39 @@ public class MainApp extends Application {
         } catch (IOException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    /**
+     * Открывает диалоговое окно настроек
+     */
+    public void showSettings() {
+        try {
+            // Загружаем fxml-файл и создаём новую сцену
+            // для всплывающего диалогового окна.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/Settings.fxml"));
+            // Даем контроллеру доступ к ResourceBundle
+            loader.setResources(resourceBundle);
+
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Создаём диалоговое окно Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle(resourceBundle.getString("key.settings.title"));
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            SettingsController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setMainApp(this);
+
+            // Отображаем диалоговое окно и ждём, пока пользователь его не закроет
+            dialogStage.showAndWait();
+        }catch (IOException e){
+            e.printStackTrace();
         }
     }
 
@@ -253,5 +289,9 @@ public class MainApp extends Application {
 
     public ObservableList<Person> getPersonData() {
         return personData;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }

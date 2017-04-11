@@ -26,8 +26,8 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="%key.label.firstname" />
-            <Label text="%key.label.lastname" GridPane.rowIndex="1" />
+            <Label text="%key.label.firstName" />
+            <Label text="%key.label.lastName" GridPane.rowIndex="1" />
             <Label text="%key.label.street" GridPane.rowIndex="2" />
             <Label text="%key.label.city" GridPane.rowIndex="3" />
             <Label text="%key.label.postalCode" GridPane.rowIndex="4" />

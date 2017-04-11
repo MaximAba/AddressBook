@@ -38,7 +38,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#handleNew" text="%key.menuItem.new" />
                   <MenuItem mnemonicParsing="false" onAction="#handleOpen" text="%key.menuItem.open" />
                   <MenuItem mnemonicParsing="false" onAction="#handleSave" text="%key.menuItem.save" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleSaveAs" text="%key.menuItem.saveas" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleSaveAs" text="%key.menuItem.saveAs" />
                   <MenuItem mnemonicParsing="false" onAction="#handleSettings" text="%key.menuItem.settings" />
               <MenuItem mnemonicParsing="false" onAction="#handleExit" text="%key.menuItem.close" />
             </items>

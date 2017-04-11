@@ -1,8 +1,10 @@
 package com.github.maximaba.address;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
@@ -32,7 +34,7 @@ public class MainApp extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
     private ResourceBundle resourceBundle;
-    private String language = "";
+    private Properties properties = new Properties();
     /**
      * Данные, в виде наблюдаемого списка адресатов.
      */
@@ -44,18 +46,31 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-        this.resourceBundle = ResourceBundle.getBundle("com.github.maximaba.address.bundles.Locate", new Locale(language));
-        this.primaryStage.setTitle(resourceBundle.getString("key.menuItem.title"));
 
-        initRootLayout();
-        showPersonOverview();
+        //Загружаем настройки из файла Settings
+        FileInputStream fis;
+        try{
+            fis = new FileInputStream("resource\\Settings.properties");
+            this.properties.load(fis);
+            fis.close();
+
+            this.primaryStage = primaryStage;
+            this.resourceBundle = ResourceBundle.getBundle("com.github.maximaba.address.resource.bundles.Locate",
+                    new Locale(properties.getProperty("key.property.language")));
+            this.primaryStage.setTitle(resourceBundle.getString("key.menuItem.title"));
+
+            initRootLayout();
+            showPersonOverview();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
     }
 
-        /**
+    /**
      * Инициализирует корневой макет.
      */
-    public void initRootLayout() {
+    private void initRootLayout() {
         try {
             // Загружаем корневой макет из fxml файла.
             FXMLLoader loader = new FXMLLoader();
@@ -87,7 +102,7 @@ public class MainApp extends Application {
         }
     }
 
-    public void showPersonOverview() {
+    private void showPersonOverview() {
         try {
             // Загружаем сведения об адресатах.
             FXMLLoader loader = new FXMLLoader();
@@ -176,6 +191,7 @@ public class MainApp extends Application {
             SettingsController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setMainApp(this);
+            controller.setProperties(properties);
 
             // Отображаем диалоговое окно и ждём, пока пользователь его не закроет
             dialogStage.showAndWait();
@@ -189,7 +205,7 @@ public class MainApp extends Application {
      * Этот preference считывается из реестра, специфичного для конкретной
      * операционной системы. Если preference не был найден, то возвращается null.
      *
-     * @return
+     * @return  path | null
      */
     public File getPersonFilePath() {
         Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
@@ -289,9 +305,5 @@ public class MainApp extends Application {
 
     public ObservableList<Person> getPersonData() {
         return personData;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
     }
 }

@@ -50,7 +50,7 @@ public class MainApp extends Application {
         //Загружаем настройки из файла Settings
         FileInputStream fis;
         try{
-            fis = new FileInputStream("resource\\Settings.properties");
+            fis = new FileInputStream("src\\com\\github\\maximaba\\address\\resource\\Settings.properties");
             this.properties.load(fis);
             fis.close();
 

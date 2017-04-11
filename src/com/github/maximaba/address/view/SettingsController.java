@@ -53,7 +53,7 @@ public class SettingsController implements Initializable {
         FileOutputStream fos;
         try{
             properties.setProperty(key, value);
-            fos = new FileOutputStream("resource\\Settings.properties");
+            fos = new FileOutputStream("src\\com\\github\\maximaba\\address\\resource\\Settings.properties");
             properties.store(fos,null);
             fos.close();
         } catch (IOException e) {

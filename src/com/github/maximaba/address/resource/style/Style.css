@@ -1,0 +1,20 @@
+.button{
+    -fx-font-family: "Segoe UI Light";
+    -fx-background-color: #0099FF;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-padding: 5;
+}
+.menu-bar {
+    -fx-background-color: #0099FF;
+}
+.menu-bar .label {
+    -fx-font-size: 10pt;
+    -fx-font-family: "Segoe UI Light";
+    -fx-opacity: 0.9;
+}
+.label {
+    -fx-font-size: 10.5pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-opacity: 0.7;
+}

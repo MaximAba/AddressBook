@@ -1,4 +1,4 @@
-package com.github.maximaba.address.view;
+package com.github.maximaba.address.controller;
 
 import com.github.maximaba.address.model.Person;
 import com.github.maximaba.address.util.DateUtil;
@@ -43,7 +43,7 @@ public class PersonEditDialogController implements Initializable {
     /**
      * Устанавливает сцену для этого окна.
      *
-     * @param dialogStage
+     * @param dialogStage Stage
      */
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
@@ -56,7 +56,7 @@ public class PersonEditDialogController implements Initializable {
     /**
      * Задаёт адресата, информацию о котором будем менять.
      *
-     * @param person
+     * @param person person
      */
     public void setPerson(Person person) {
         this.person = person;
@@ -68,7 +68,7 @@ public class PersonEditDialogController implements Initializable {
         cityField.setText(person.getCity());
         birthdayField.setText(DateUtil.format(person.getBirthday()));
         birthdayField.setPromptText("dd.mm.yyyy");
-        phoneNumberField.setText(person.getPhoneNumber());
+        phoneNumberField.setText(person.getPhoneNumber().replaceAll("[-()]",""));
     }
 
     /**

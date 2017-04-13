@@ -30,7 +30,7 @@ public class Person {
         this.postalCode = new SimpleIntegerProperty(0);
         this.city = new SimpleStringProperty(null);
         this.birthday = new SimpleObjectProperty<>(null);
-        this.phoneNumber = new SimpleStringProperty(null);
+        this.phoneNumber = new SimpleStringProperty("()");
 
     }
 

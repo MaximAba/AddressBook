@@ -1,4 +1,4 @@
-package com.github.maximaba.address.view;
+package com.github.maximaba.address.controller;
 
 import com.github.maximaba.address.MainApp;
 import javafx.fxml.FXML;

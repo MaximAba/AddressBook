@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="250.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.maximaba.address.view.PersonEditDialogController">
+<AnchorPane prefHeight="250.0" prefWidth="450.0" stylesheets="@../resource/style/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.maximaba.address.controller.PersonEditDialogController">
    <children>
       <GridPane layoutX="100.0" layoutY="24.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="5.0">
         <columnConstraints>
@@ -44,8 +44,8 @@
       </GridPane>
       <ButtonBar layoutX="186.0" layoutY="216.0" prefHeight="34.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="186.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="216.0">
         <buttons>
-          <Button mnemonicParsing="false" onAction="#handleOk" text="%key.button.ok" />
-            <Button mnemonicParsing="false" onAction="#handleCancel" text="%key.button.cancel" />
+          <Button defaultButton="true" mnemonicParsing="false" onAction="#handleOk" text="%key.button.ok" />
+            <Button cancelButton="true" mnemonicParsing="false" onAction="#handleCancel" text="%key.button.cancel" />
         </buttons>
       </ButtonBar>
    </children>

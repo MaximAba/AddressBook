@@ -1,4 +1,4 @@
-package com.github.maximaba.address.view;
+package com.github.maximaba.address.controller;
 
 import com.github.maximaba.address.MainApp;
 import com.github.maximaba.address.util.LocateUtil;
@@ -53,7 +53,7 @@ public class SettingsController implements Initializable {
         FileOutputStream fos;
         try{
             properties.setProperty(key, value);
-            fos = new FileOutputStream("src\\com\\github\\maximaba\\address\\resource\\Settings.properties");
+            fos = new FileOutputStream("src\\com\\github\\maximaba\\address\\resource\\settings\\Settings.properties");
             properties.store(fos,null);
             fos.close();
         } catch (IOException e) {

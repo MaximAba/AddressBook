@@ -1,4 +1,4 @@
-package com.github.maximaba.address.view;
+package com.github.maximaba.address.controller;
 
 import com.github.maximaba.address.MainApp;
 import com.github.maximaba.address.model.Person;
@@ -38,7 +38,6 @@ public class PersonOverviewController implements Initializable {
 
     // Ссылка на главное приложение.
     private MainApp mainApp;
-
     private ResourceBundle resourceBundle;
 
     /**
@@ -66,7 +65,7 @@ public class PersonOverviewController implements Initializable {
     /**
      * Вызывается главным приложением, которое даёт на себя ссылку.
      *
-     * @param mainApp
+     * @param mainApp mainApp
      */
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;

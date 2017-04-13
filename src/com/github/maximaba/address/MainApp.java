@@ -10,10 +10,10 @@ import java.util.prefs.Preferences;
 
 import com.github.maximaba.address.model.Person;
 import com.github.maximaba.address.model.PersonListWrapper;
-import com.github.maximaba.address.view.PersonEditDialogController;
-import com.github.maximaba.address.view.PersonOverviewController;
-import com.github.maximaba.address.view.RootLayoutController;
-import com.github.maximaba.address.view.SettingsController;
+import com.github.maximaba.address.controller.PersonEditDialogController;
+import com.github.maximaba.address.controller.PersonOverviewController;
+import com.github.maximaba.address.controller.RootLayoutController;
+import com.github.maximaba.address.controller.SettingsController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -50,7 +50,7 @@ public class MainApp extends Application {
         //Загружаем настройки из файла Settings
         FileInputStream fis;
         try{
-            fis = new FileInputStream("src\\com\\github\\maximaba\\address\\resource\\Settings.properties");
+            fis = new FileInputStream("src\\com\\github\\maximaba\\address\\resource\\settings\\Settings.properties");
             this.properties.load(fis);
             fis.close();
 
@@ -79,16 +79,18 @@ public class MainApp extends Application {
             // Даем контроллеру доступ к ResourceBundle
             loader.setResources(resourceBundle);
 
-            rootLayout = (BorderPane) loader.load();
+            rootLayout = loader.load();
 
             // Отображаем сцену, содержащую корневой макет.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
 
-            // Даём контроллеру(RootLayoutController) доступ к главному прилодению.
-            RootLayoutController controller = loader.getController();;
+            // Даём контроллеру(RootLayoutController) доступ к главному приложению.
+            RootLayoutController controller = loader.getController();
             controller.setMainApp(this);
 
+            primaryStage.setMinWidth(670);
+            primaryStage.setMinHeight(370);
             primaryStage.show();
 
         } catch (IOException e) {
@@ -104,15 +106,12 @@ public class MainApp extends Application {
 
     private void showPersonOverview() {
         try {
-            // Загружаем сведения об адресатах.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/PersonOverview.fxml"));
-            // Даем контроллеру доступ к ResourceBundle
             loader.setResources(resourceBundle);
 
-            AnchorPane personOverview = (AnchorPane) loader.load();
+            AnchorPane personOverview = loader.load();
 
-            // Даём контроллеру(PersonOverviewController) доступ к главному приложению.
             PersonOverviewController controller = loader.getController();
             controller.setMainApp(this);
 
@@ -125,7 +124,7 @@ public class MainApp extends Application {
 
 
     /**
-     * Открывает диалоговое окно для изменения деталей указанного адресата.
+     * Открывает модальное окно для изменения деталей указанного адресата.
      * Если пользователь кликнул OK, то изменения сохраняются в предоставленном
      * объекте адресата и возвращается значение true.
      *
@@ -134,18 +133,16 @@ public class MainApp extends Application {
      */
     public boolean showPersonEditDialog(Person person) {
         try {
-            // Загружаем fxml-файл и создаём новую сцену
-            // для всплывающего диалогового окна.
+            // Загружаем fxml-файл и создаём новую сцену для всплывающего диалогового окна.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/PersonEditDialog.fxml"));
-            // Даем контроллеру доступ к ResourceBundle
             loader.setResources(resourceBundle);
-
-            AnchorPane page = (AnchorPane) loader.load();
+            AnchorPane page = loader.load();
 
             // Создаём диалоговое окно Stage.
             Stage dialogStage = new Stage();
             dialogStage.setTitle(resourceBundle.getString("key.personEditDialog.title"));
+            dialogStage.setResizable(false);
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
@@ -167,22 +164,18 @@ public class MainApp extends Application {
     }
 
     /**
-     * Открывает диалоговое окно настроек
+     * Открывает модальное окно настроек
      */
     public void showSettings() {
         try {
-            // Загружаем fxml-файл и создаём новую сцену
-            // для всплывающего диалогового окна.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/Settings.fxml"));
-            // Даем контроллеру доступ к ResourceBundle
             loader.setResources(resourceBundle);
+            AnchorPane page = loader.load();
 
-            AnchorPane page = (AnchorPane) loader.load();
-
-            // Создаём диалоговое окно Stage.
             Stage dialogStage = new Stage();
             dialogStage.setTitle(resourceBundle.getString("key.settings.title"));
+            dialogStage.setResizable(false);
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
@@ -193,7 +186,6 @@ public class MainApp extends Application {
             controller.setMainApp(this);
             controller.setProperties(properties);
 
-            // Отображаем диалоговое окно и ждём, пока пользователь его не закроет
             dialogStage.showAndWait();
         }catch (IOException e){
             e.printStackTrace();
@@ -242,7 +234,7 @@ public class MainApp extends Application {
      * Загружает информацию об адресатах из указанного файла.
      * Текущая информация об адресатах будет заменена.
      *
-     * @param file
+     * @param file file
      */
     public void loadPersonDataFromFile(File file) {
         try {
@@ -272,7 +264,7 @@ public class MainApp extends Application {
     /**
      * Сохраняет текущую информацию об адресатах в указанном файле.
      *
-     * @param file
+     * @param file file
      */
     public void savePersonDataToFile(File file) {
         try {

@@ -1,11 +1,9 @@
 package com.github.maximaba.address;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.Optional;
-import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
@@ -15,6 +13,7 @@ import com.github.maximaba.address.controller.PersonEditDialogController;
 import com.github.maximaba.address.controller.PersonOverviewController;
 import com.github.maximaba.address.controller.RootLayoutController;
 import com.github.maximaba.address.controller.SettingsController;
+import com.github.maximaba.address.util.ParamApp;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -39,7 +38,6 @@ public class MainApp extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
     private ResourceBundle resourceBundle;
-    private Properties properties = new Properties();
     /**
      * Данные, в виде наблюдаемого списка адресатов.
      */
@@ -52,31 +50,23 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        //Загружаем настройки из файла Settings
-        FileInputStream fis;
-        try{
-            fis = new FileInputStream("src\\com\\github\\maximaba\\address\\resource\\settings\\Settings.properties");
-            this.properties.load(fis);
-            fis.close();
+        //Загружаем настройки
+        ParamApp.load();
 
-            this.primaryStage = primaryStage;
-            this.resourceBundle = ResourceBundle.getBundle("com.github.maximaba.address.resource.bundles.Locate",
-                    new Locale(properties.getProperty("key.property.language")));
-            this.primaryStage.setTitle(resourceBundle.getString("key.menuItem.title"));
+        this.primaryStage = primaryStage;
+        this.resourceBundle = ResourceBundle.getBundle("com.github.maximaba.address.resource.bundles.Locate",
+                new Locale(ParamApp.language));
+        this.primaryStage.setTitle(resourceBundle.getString("key.menuItem.title"));
 
-            //Действия при закрытии главного окна
-            primaryStage.setOnCloseRequest(event -> {
-                event.consume();
-                stop();
-            });
+        //Действия при закрытии главного окна
+        primaryStage.setOnCloseRequest(event -> {
+            event.consume();
+            stop();
+        });
 
-            initRootLayout();
-            showPersonOverview();
-            isSaved = true;
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-
+        initRootLayout();
+        showPersonOverview();
+        isSaved = true;
     }
 
     /**
@@ -196,10 +186,9 @@ public class MainApp extends Application {
             SettingsController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setMainApp(this);
-            controller.setProperties(properties);
 
             dialogStage.showAndWait();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -209,7 +198,7 @@ public class MainApp extends Application {
      * Этот preference считывается из реестра, специфичного для конкретной
      * операционной системы. Если preference не был найден, то возвращается null.
      *
-     * @return  path | null
+     * @return path | null
      */
     public File getPersonFilePath() {
         Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
@@ -309,7 +298,7 @@ public class MainApp extends Application {
      * Открывает FileChooser, чтобы пользователь имел возможность
      * выбрать файл, куда будут сохранены данные
      */
-    public void saveAsPersonDataToFile(){
+    public void saveAsPersonDataToFile() {
         FileChooser fileChooser = new FileChooser();
 
         // Задаём фильтр расширений
@@ -321,7 +310,7 @@ public class MainApp extends Application {
         File file = fileChooser.showSaveDialog(primaryStage);
 
         if (file != null) {
-            // Make sure it has the correct extension
+            // Проверка расширения
             if (!file.getPath().endsWith(".xml")) {
                 file = new File(file.getPath() + ".xml");
             }
@@ -338,7 +327,7 @@ public class MainApp extends Application {
         }
     }
 
-    private void showExitMenu(){
+    private void showExitMenu() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(resourceBundle.getString("key.confirmation.title"));
         alert.setHeaderText(resourceBundle.getString("key.confirmation.header"));
@@ -362,7 +351,7 @@ public class MainApp extends Application {
         } else if (result.get() == notSave) {
             isSaved = true;
             primaryStage.close();
-        } else if (result.get() == close){
+        } else if (result.get() == close) {
             alert.close();
         }
     }

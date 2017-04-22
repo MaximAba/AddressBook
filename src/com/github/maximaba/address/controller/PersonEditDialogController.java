@@ -16,7 +16,6 @@ import java.util.ResourceBundle;
 
 /**
  * Окно для изменения информации об адресате.
- *
  */
 public class PersonEditDialogController implements Initializable {
 
@@ -53,6 +52,7 @@ public class PersonEditDialogController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         this.resourceBundle = resources;
     }
+
     /**
      * Задаёт адресата, информацию о котором будем менять.
      *
@@ -68,11 +68,10 @@ public class PersonEditDialogController implements Initializable {
         cityField.setText(person.getCity());
         birthdayField.setText(DateUtil.format(person.getBirthday()));
         birthdayField.setPromptText("dd.mm.yyyy");
-        phoneNumberField.setText(person.getPhoneNumber().replaceAll("[-()]",""));
+        phoneNumberField.setText(person.getPhoneNumber().replaceAll("[-()]", ""));
     }
 
     /**
-     *
      * @return true, если пользователь кликнул OK, в другом случае false.
      */
     public boolean isOkClicked() {
@@ -128,7 +127,7 @@ public class PersonEditDialogController implements Initializable {
         }
 
         if (postalCodeField.getText() == null || postalCodeField.getText().length() == 0) {
-            errorMessage += resourceBundle.getString("key.error.edit.context.postalCode")+ "\n";
+            errorMessage += resourceBundle.getString("key.error.edit.context.postalCode") + "\n";
         } else {
             // пытаемся преобразовать почтовый код в int.
             try {
@@ -152,11 +151,11 @@ public class PersonEditDialogController implements Initializable {
 
         if (phoneNumberField.getText() == null || phoneNumberField.getText().length() != 11) {
             errorMessage += resourceBundle.getString("key.error.edit.context.phoneLength") + "\n";
-        }else {
+        } else {
             try {
                 // пытаемся преобразовать почтовый код в long, так как номер 9ти значный.
                 Long.parseLong(phoneNumberField.getText());
-            }catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 errorMessage += resourceBundle.getString("key.error.edit.context.phoneNFE") + "\n";
             }
         }

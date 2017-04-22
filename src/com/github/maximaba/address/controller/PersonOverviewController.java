@@ -81,6 +81,7 @@ public class PersonOverviewController implements Initializable {
             return false; // Нет совпадений.
         }));
     }
+
     /**
      * Вызывается главным приложением, которое даёт на себя ссылку.
      *
@@ -120,6 +121,7 @@ public class PersonOverviewController implements Initializable {
             phoneNumberLabel.setText("");
         }
     }
+
     /**
      * Вызывается, когда пользователь кликает по кнопке удаления.
      */
@@ -182,7 +184,7 @@ public class PersonOverviewController implements Initializable {
     }
 
     @FXML
-    private void searchPerson(){
+    private void searchPerson() {
         // Оборачиваем ObservableList в FilteredList.
         filteredData = new FilteredList<>(mainApp.getPersonData(), p -> true);
 

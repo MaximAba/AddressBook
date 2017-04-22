@@ -9,10 +9,14 @@ import java.time.format.DateTimeParseException;
  */
 public class DateUtil {
 
-    /** Шаблон даты, используемый для преобразования. */
+    /**
+     * Шаблон даты, используемый для преобразования.
+     */
     private static final String DATE_PATTERN = "dd.MM.yyyy";
 
-    /** Форматировщик даты. */
+    /**
+     * Форматировщик даты.
+     */
     private static final DateTimeFormatter DATE_FORMATTER =
             DateTimeFormatter.ofPattern(DATE_PATTERN);
 
@@ -33,7 +37,7 @@ public class DateUtil {
     /**
      * Преобразует строку, которая отформатирована по правилам
      * шаблона {@link DateUtil#DATE_PATTERN} в объект {@link LocalDate}.
-     *
+     * <p>
      * Возвращает null, если строка не может быть преобразована.
      *
      * @param dateString - дата в виде String
@@ -50,7 +54,7 @@ public class DateUtil {
     /**
      * Проверяет, является ли строка корректной датой.
      *
-     * @param dateString
+     * @param dateString дата
      * @return true, если строка является корректной датой
      */
     public static boolean validDate(String dateString) {

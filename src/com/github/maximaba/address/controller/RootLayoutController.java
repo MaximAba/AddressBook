@@ -24,7 +24,7 @@ public class RootLayoutController implements Initializable {
      * Создаёт пустую адресную книгу.
      */
     @FXML
-    private void handleNew(){
+    private void handleNew() {
         mainApp.getPersonData().clear();
         mainApp.setPersonFilePath(null);
     }
@@ -36,12 +36,13 @@ public class RootLayoutController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         this.resourceBundle = resources;
     }
+
     /**
      * Открывает FileChooser, чтобы пользователь имел возможность
      * выбрать адресную книгу для загрузки.
      */
     @FXML
-    private void handleOpen(){
+    private void handleOpen() {
         FileChooser fileChooser = new FileChooser();
 
         // Задаём фильтр расширений
@@ -62,7 +63,7 @@ public class RootLayoutController implements Initializable {
      * Если файл не открыт, то отображается диалог "save as".
      */
     @FXML
-    private void handleSave(){
+    private void handleSave() {
         File personFile = mainApp.getPersonFilePath();
         if (personFile != null) {
             mainApp.savePersonDataToFile(personFile);
@@ -75,12 +76,12 @@ public class RootLayoutController implements Initializable {
      * Вызывает соответствующий метод в MainApp
      */
     @FXML
-    private void handleSaveAs(){
+    private void handleSaveAs() {
         mainApp.saveAsPersonDataToFile();
     }
 
     @FXML
-    private void handleSettings(){
+    private void handleSettings() {
         mainApp.showSettings();
     }
 
@@ -90,7 +91,7 @@ public class RootLayoutController implements Initializable {
     }
 
     @FXML
-    private void handleAbout(){
+    private void handleAbout() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(resourceBundle.getString("key.menuItem.title"));
         alert.setHeaderText(resourceBundle.getString("key.about.header"));

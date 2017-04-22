@@ -2,15 +2,14 @@ package com.github.maximaba.address.controller;
 
 import com.github.maximaba.address.MainApp;
 import com.github.maximaba.address.util.LocateUtil;
+import com.github.maximaba.address.util.ParamApp;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 
-import java.io.*;
 import java.net.URL;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class SettingsController implements Initializable {
@@ -21,7 +20,6 @@ public class SettingsController implements Initializable {
     private Stage dialogStage;
     private ResourceBundle resourceBundle;
     private MainApp mainApp;
-    private Properties properties;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -40,27 +38,6 @@ public class SettingsController implements Initializable {
         this.dialogStage = dialogStage;
     }
 
-    public void setProperties(Properties properties) {
-        this.properties = properties;
-    }
-
-    /**
-     * Метод записи изменений в файл настроек Settings.property
-     * @param key ключ в Settings.property
-     * @param value значение в Settings.property
-     */
-    private void setProperty(String key, String value){
-        FileOutputStream fos;
-        try{
-            properties.setProperty(key, value);
-            fos = new FileOutputStream("src\\com\\github\\maximaba\\address\\resource\\settings\\Settings.properties");
-            properties.store(fos,null);
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * При нажатии OK "перезапускаем" Application с новыми параметрами.
      * Закрываем диалог настроек.
@@ -76,8 +53,8 @@ public class SettingsController implements Initializable {
      * Закрываем диалог настроек.
      */
     @FXML
-    private void handleCancel(){
-        setProperty("key.property.language", resourceBundle.getString("key.locate"));
+    private void handleCancel() {
+        ParamApp.save("key.param.language",ParamApp.language);
         dialogStage.close();
     }
 
@@ -85,7 +62,7 @@ public class SettingsController implements Initializable {
      * Меняем Locate на язык который в данный момент выбран в Combo Box.
      */
     @FXML
-    private void changeLang(){
-        setProperty("key.property.language", LocateUtil.formatLang(comboBox.getValue()));
+    private void changeLang() {
+        ParamApp.save("key.param.language", LocateUtil.formatLang(comboBox.getValue()));
     }
 }

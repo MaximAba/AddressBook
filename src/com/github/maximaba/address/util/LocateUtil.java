@@ -1,11 +1,12 @@
 package com.github.maximaba.address.util;
+
 /**
  * ¬спомогательный класс перечисление доступных локализаций c методом возвращающим
  * им€ локализации.
  */
 public enum LocateUtil {
 
-    RU("–усский"),EN("English");
+    RU("–усский"), EN("English");
 
     LocateUtil(String locate) {
         this.fullName = locate;
@@ -17,8 +18,8 @@ public enum LocateUtil {
         return fullName;
     }
 
-    public static String formatLang(String locate){
-        for (LocateUtil LOC: LocateUtil.values()){
+    public static String formatLang(String locate) {
+        for (LocateUtil LOC : LocateUtil.values()) {
             if (LOC.fullName.equals(locate)) return LOC.name();
         }
         return RU.name();

@@ -11,12 +11,12 @@ public class PhoneNumberUtil {
      * @param number 11 цифр
      * @return телефонный номер в формате *-(***)-***-**-**
      */
-    public static String formatTelephoneNumber(String number){
+    public static String formatTelephoneNumber(String number) {
         sb = new StringBuilder(number);
-        sb.insert(1,"-(");
-        sb.insert(6,")-");
-        sb.insert(11,"-");
-        sb.insert(14,"-");
+        sb.insert(1, "-(");
+        sb.insert(6, ")-");
+        sb.insert(11, "-");
+        sb.insert(14, "-");
         return String.valueOf(sb);
     }
 }

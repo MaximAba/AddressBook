@@ -72,28 +72,11 @@ public class RootLayoutController implements Initializable {
     }
 
     /**
-     * Открывает FileChooser, чтобы пользователь имел возможность
-     * выбрать файл, куда будут сохранены данные
+     * Вызывает соответствующий метод в MainApp
      */
     @FXML
     private void handleSaveAs(){
-        FileChooser fileChooser = new FileChooser();
-
-        // Задаём фильтр расширений
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-                "XML files (*.xml)", "*.xml");
-        fileChooser.getExtensionFilters().add(extFilter);
-
-        // Показываем диалог сохранения файла
-        File file = fileChooser.showSaveDialog(mainApp.getPrimaryStage());
-
-        if (file != null) {
-            // Make sure it has the correct extension
-            if (!file.getPath().endsWith(".xml")) {
-                file = new File(file.getPath() + ".xml");
-            }
-            mainApp.savePersonDataToFile(file);
-        }
+        mainApp.saveAsPersonDataToFile();
     }
 
     @FXML
@@ -103,7 +86,7 @@ public class RootLayoutController implements Initializable {
 
     @FXML
     private void handleExit() {
-        System.exit(0);
+        mainApp.stop();
     }
 
     @FXML
@@ -115,7 +98,4 @@ public class RootLayoutController implements Initializable {
 
         alert.showAndWait();
     }
-
-
-
 }

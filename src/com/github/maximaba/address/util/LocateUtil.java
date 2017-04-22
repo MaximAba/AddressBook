@@ -21,7 +21,6 @@ public enum LocateUtil {
         for (LocateUtil LOC: LocateUtil.values()){
             if (LOC.fullName.equals(locate)) return LOC.name();
         }
-
         return RU.name();
     }
 }

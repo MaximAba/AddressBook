@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
@@ -20,8 +21,11 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -31,6 +35,7 @@ import javax.xml.bind.Unmarshaller;
 
 public class MainApp extends Application {
 
+    private boolean isSaved;
     private Stage primaryStage;
     private BorderPane rootLayout;
     private ResourceBundle resourceBundle;
@@ -59,8 +64,15 @@ public class MainApp extends Application {
                     new Locale(properties.getProperty("key.property.language")));
             this.primaryStage.setTitle(resourceBundle.getString("key.menuItem.title"));
 
+            //Действия при закрытии главного окна
+            primaryStage.setOnCloseRequest(event -> {
+                event.consume();
+                stop();
+            });
+
             initRootLayout();
             showPersonOverview();
+            isSaved = true;
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -250,7 +262,7 @@ public class MainApp extends Application {
 
             // Сохраняем путь к файлу в реестре.
             setPersonFilePath(file);
-
+            isSaved = true;
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle(resourceBundle.getString("key.error"));
@@ -282,6 +294,7 @@ public class MainApp extends Application {
 
             // Сохраняем путь к файлу в реестре.
             setPersonFilePath(file);
+            isSaved = true;
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle(resourceBundle.getString("key.error"));
@@ -291,6 +304,73 @@ public class MainApp extends Application {
             alert.showAndWait();
         }
     }
+
+    /**
+     * Открывает FileChooser, чтобы пользователь имел возможность
+     * выбрать файл, куда будут сохранены данные
+     */
+    public void saveAsPersonDataToFile(){
+        FileChooser fileChooser = new FileChooser();
+
+        // Задаём фильтр расширений
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
+                "XML files (*.xml)", "*.xml");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        // Показываем диалог сохранения файла
+        File file = fileChooser.showSaveDialog(primaryStage);
+
+        if (file != null) {
+            // Make sure it has the correct extension
+            if (!file.getPath().endsWith(".xml")) {
+                file = new File(file.getPath() + ".xml");
+            }
+            this.savePersonDataToFile(file);
+        }
+    }
+
+    @Override
+    public void stop() {
+        if (!isSaved) {
+            this.showExitMenu();
+        } else {
+            primaryStage.close();
+        }
+    }
+
+    private void showExitMenu(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(resourceBundle.getString("key.confirmation.title"));
+        alert.setHeaderText(resourceBundle.getString("key.confirmation.header"));
+        alert.setContentText(resourceBundle.getString("key.confirmation.context"));
+
+        ButtonType save = new ButtonType(resourceBundle.getString("key.button.save"));
+        ButtonType notSave = new ButtonType(resourceBundle.getString("key.button.notSave"));
+        ButtonType close = new ButtonType(resourceBundle.getString("key.button.cancel"), ButtonBar.ButtonData.CANCEL_CLOSE);
+        alert.getButtonTypes().setAll(save, notSave, close);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == save) {
+            File personFile = getPersonFilePath();
+            if (personFile != null) {
+                this.savePersonDataToFile(personFile);
+                primaryStage.close();
+            } else {
+                this.saveAsPersonDataToFile();
+                primaryStage.close();
+            }
+        } else if (result.get() == notSave) {
+            isSaved = true;
+            primaryStage.close();
+        } else if (result.get() == close){
+            alert.close();
+        }
+    }
+
+    public void setSaved() {
+        isSaved = false;
+    }
+
     public Stage getPrimaryStage() {
         return primaryStage;
     }

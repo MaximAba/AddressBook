@@ -3,12 +3,11 @@ package com.github.maximaba.address.controller;
 import com.github.maximaba.address.MainApp;
 import com.github.maximaba.address.model.Person;
 import com.github.maximaba.address.util.DateUtil;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -35,10 +34,13 @@ public class PersonOverviewController implements Initializable {
     private Label birthdayLabel;
     @FXML
     private Label phoneNumberLabel;
+    @FXML
+    private TextField searchField;
 
     // Ссылка на главное приложение.
     private MainApp mainApp;
     private ResourceBundle resourceBundle;
+    private FilteredList<Person> filteredData;
 
     /**
      * Инициализация класса-контроллера. Этот метод вызывается автоматически
@@ -61,6 +63,23 @@ public class PersonOverviewController implements Initializable {
         // дополнительную информацию об адресате.
         personTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showPersonDetails(newValue));
+
+        // Фильтр(Поиск)
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(person -> {
+            // Если текст фильтра(searchField) пуст, отображаем всех пользователей.
+            if (newValue == null || newValue.isEmpty()) {
+                return true;
+            }
+            // Сравниваем имя и фамилию каждого человека с текстом фильтра(searchField).
+            String lowerCaseFilter = newValue.toLowerCase();
+
+            if (person.getFirstName().toLowerCase().contains(lowerCaseFilter)) {
+                return true; // Совпадение по имени.
+            } else if (person.getLastName().toLowerCase().contains(lowerCaseFilter)) {
+                return true; // Совпадение по фамилии.
+            }
+            return false; // Нет совпадений.
+        }));
     }
     /**
      * Вызывается главным приложением, которое даёт на себя ссылку.
@@ -109,6 +128,7 @@ public class PersonOverviewController implements Initializable {
         int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
             personTable.getItems().remove(selectedIndex);
+            mainApp.setSaved();
         } else {
             // Ничего не выбрано.
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -131,6 +151,7 @@ public class PersonOverviewController implements Initializable {
         boolean okClicked = mainApp.showPersonEditDialog(tempPerson);
         if (okClicked) {
             mainApp.getPersonData().add(tempPerson);
+            mainApp.setSaved();
         }
     }
 
@@ -145,6 +166,7 @@ public class PersonOverviewController implements Initializable {
             boolean okClicked = mainApp.showPersonEditDialog(selectedPerson);
             if (okClicked) {
                 showPersonDetails(selectedPerson);
+                mainApp.setSaved();
             }
 
         } else {
@@ -159,5 +181,18 @@ public class PersonOverviewController implements Initializable {
         }
     }
 
+    @FXML
+    private void searchPerson(){
+        // Оборачиваем ObservableList в FilteredList.
+        filteredData = new FilteredList<>(mainApp.getPersonData(), p -> true);
 
+        // Оборачиваем FilteredList в SortedList(FilteredList является immutable, поэтому он не может быть отсортирован).
+        SortedList<Person> sortedData = new SortedList<>(filteredData);
+
+        // Привязка компаратора SortedList к компоратору TableView.
+        sortedData.comparatorProperty().bind(personTable.comparatorProperty());
+
+        // Добавление отсортированные и отфилтрованные данные в TableView.
+        personTable.setItems(sortedData);
+    }
 }

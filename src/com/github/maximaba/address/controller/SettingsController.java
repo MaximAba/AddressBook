@@ -25,7 +25,7 @@ public class SettingsController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         this.resourceBundle = resources;
 
-        //добавляем в combo box пункты
+        //РґРѕР±Р°РІР»СЏРµРј РІ combo box СЌР»РµРјРµРЅС‚С‹
         this.comboBox.setItems(FXCollections.observableArrayList(LocateUtil.RU.getName(), LocateUtil.EN.getName()));
         this.comboBox.setValue(resourceBundle.getString("key.locate"));
     }
@@ -39,8 +39,7 @@ public class SettingsController implements Initializable {
     }
 
     /**
-     * При нажатии OK "перезапускаем" Application с новыми параметрами.
-     * Закрываем диалог настроек.
+     * РџСЂРё РЅР°Р¶Р°С‚РёРё OK "РїРµСЂРµР·Р°РїСѓСЃРєР°РµРј" Application СЃ РЅРѕРІС‹РјРё РїР°СЂР°РјРµС‚СЂР°РјРё.
      */
     @FXML
     private void handleOk() {
@@ -49,8 +48,7 @@ public class SettingsController implements Initializable {
     }
 
     /**
-     * Кнопка Cancel. Обнуляет изменения. Задает текущий Locate
-     * Закрываем диалог настроек.
+     * РћР±РЅСѓР»СЏРµС‚ РІСЃРµ РёР·РјРµРЅРµРЅРёСЏ.
      */
     @FXML
     private void handleCancel() {
@@ -59,7 +57,7 @@ public class SettingsController implements Initializable {
     }
 
     /**
-     * Меняем Locate на язык который в данный момент выбран в Combo Box.
+     * РР·РјРµРЅСЏРµС‚ РїР°СЂР°РјРµС‚СЂ. РџСЂРёРІСЏР·Р°РЅ Рє comboBox
      */
     @FXML
     private void changeLang() {

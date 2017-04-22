@@ -3,13 +3,13 @@ package com.github.maximaba.address.util;
 import java.util.prefs.Preferences;
 
 /**
- * Вспомогательный класс обеспечивающий чтение и запись настроек.
+ * Р’СЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Р№ РєР»Р°СЃСЃ РЅР°СЃС‚СЂРѕРµРє.
  */
 public class ParamApp {
-    public static String language;         //Язык
+    public static String language;         //СЏР·С‹Рє
 
     /**
-     * Загрузка настроек.
+     * Р—Р°РіСЂСѓР·РєР° РЅР°СЃС‚СЂРѕРµРє.
      */
     public static void load() {
         Preferences prefs = Preferences.userRoot();
@@ -17,10 +17,10 @@ public class ParamApp {
     }
 
     /**
-     * Сохранение настроек.
+     * РЎРѕС…СЂР°РЅРµРЅРёРµ РЅР°СЃС‚СЂРѕРµРє.
      *
-     * @param key   ключ параметра
-     * @param value записываемое значение
+     * @param key   РєР»СЋС‡ РїР°СЂР°РјРµС‚СЂР°
+     * @param value Р·РЅР°С‡РµРЅРёРµ РёР·РјРµРЅСЏРµРјРѕРµ РїРѕ РєР»СЋС‡Сѓ
      */
     public static void save(String key, String value) {
         Preferences prefs = Preferences.userRoot();

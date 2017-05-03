@@ -54,7 +54,7 @@ public class MainApp extends Application {
         ParamApp.load();
 
         this.primaryStage = primaryStage;
-        this.resourceBundle = ResourceBundle.getBundle("com.github.maximaba.address.resource.bundles.Locate",
+        this.resourceBundle = ResourceBundle.getBundle("resource.bundles.Locate",
                 new Locale(ParamApp.language));
         this.primaryStage.setTitle(resourceBundle.getString("key.menuItem.title"));
 
@@ -253,6 +253,7 @@ public class MainApp extends Application {
             setPersonFilePath(file);
             isSaved = true;
         } catch (Exception e) {
+            setPersonFilePath(null);
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle(resourceBundle.getString("key.error"));
             alert.setHeaderText(resourceBundle.getString("key.error.load.header"));
@@ -314,14 +315,14 @@ public class MainApp extends Application {
             if (!file.getPath().endsWith(".xml")) {
                 file = new File(file.getPath() + ".xml");
             }
-            this.savePersonDataToFile(file);
+            savePersonDataToFile(file);
         }
     }
 
     @Override
     public void stop() {
         if (!isSaved) {
-            this.showExitMenu();
+            showExitMenu();
         } else {
             primaryStage.close();
         }
@@ -342,10 +343,10 @@ public class MainApp extends Application {
         if (result.get() == save) {
             File personFile = getPersonFilePath();
             if (personFile != null) {
-                this.savePersonDataToFile(personFile);
+                savePersonDataToFile(personFile);
                 primaryStage.close();
             } else {
-                this.saveAsPersonDataToFile();
+                saveAsPersonDataToFile();
                 primaryStage.close();
             }
         } else if (result.get() == notSave) {

@@ -2,7 +2,6 @@ package com.github.maximaba.address.controller;
 
 import com.github.maximaba.address.model.Person;
 import com.github.maximaba.address.util.DateUtil;
-import com.github.maximaba.address.util.PhoneNumberUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -93,7 +92,8 @@ public class PersonEditDialogController implements Initializable {
             //см. util.DateUtil
             person.setBirthday(DateUtil.parse(birthdayField.getText()));
 
-            person.setPhoneNumber(PhoneNumberUtil.formatTelephoneNumber(phoneNumberField.getText()));
+            person.setPhoneNumber(phoneNumberField.getText().replaceFirst("(\\d)(\\d{3})(\\d{3})(\\d{2})(\\d{2})",
+                    "$1-($2)-$3-$4-$5"));
 
             okClicked = true;
             dialogStage.close();
@@ -116,17 +116,17 @@ public class PersonEditDialogController implements Initializable {
     private boolean isInputValid() {
         String errorMessage = "";
 
-        if (firstNameField.getText() == null || firstNameField.getText().length() == 0) {
+        if (firstNameField.getText() == null || firstNameField.getText().isEmpty()) {
             errorMessage += resourceBundle.getString("key.error.edit.context.firstName") + "\n";
         }
-        if (lastNameField.getText() == null || lastNameField.getText().length() == 0) {
+        if (lastNameField.getText() == null || lastNameField.getText().isEmpty()) {
             errorMessage += resourceBundle.getString("key.error.edit.context.lastName") + "\n";
         }
-        if (streetField.getText() == null || streetField.getText().length() == 0) {
+        if (streetField.getText() == null || streetField.getText().isEmpty()) {
             errorMessage += resourceBundle.getString("key.error.edit.context.street") + "\n";
         }
 
-        if (postalCodeField.getText() == null || postalCodeField.getText().length() == 0) {
+        if (postalCodeField.getText() == null || postalCodeField.getText().isEmpty()) {
             errorMessage += resourceBundle.getString("key.error.edit.context.postalCode") + "\n";
         } else {
             // пытаемся преобразовать почтовый код в int.
@@ -137,11 +137,11 @@ public class PersonEditDialogController implements Initializable {
             }
         }
 
-        if (cityField.getText() == null || cityField.getText().length() == 0) {
+        if (cityField.getText() == null || cityField.getText().isEmpty()) {
             errorMessage += resourceBundle.getString("key.error.edit.context.city") + "\n";
         }
 
-        if (birthdayField.getText() == null || birthdayField.getText().length() == 0) {
+        if (birthdayField.getText() == null || birthdayField.getText().isEmpty()) {
             errorMessage += resourceBundle.getString("key.error.edit.context.birthday") + "\n";
         } else {
             if (!DateUtil.validDate(birthdayField.getText())) {

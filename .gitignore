@@ -47,3 +47,4 @@ fabric.properties
 #Manifest
 META-INF/
 
+/target/

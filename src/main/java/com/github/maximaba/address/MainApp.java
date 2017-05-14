@@ -54,7 +54,7 @@ public class MainApp extends Application {
         ParamApp.load();
 
         this.primaryStage = primaryStage;
-        this.resourceBundle = ResourceBundle.getBundle("resource.bundles.Locate",
+        this.resourceBundle = ResourceBundle.getBundle("bundles.Locate",
                 new Locale(ParamApp.language));
         this.primaryStage.setTitle(resourceBundle.getString("key.menuItem.title"));
 
@@ -76,7 +76,7 @@ public class MainApp extends Application {
         try {
             // Загружаем корневой макет из fxml файла.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
+            loader.setLocation(MainApp.class.getResource("/view/RootLayout.fxml"));
 
             // Даем контроллеру доступ к ResourceBundle
             loader.setResources(resourceBundle);
@@ -109,7 +109,7 @@ public class MainApp extends Application {
     private void showPersonOverview() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/PersonOverview.fxml"));
+            loader.setLocation(MainApp.class.getResource("/view/PersonOverview.fxml"));
             loader.setResources(resourceBundle);
 
             AnchorPane personOverview = loader.load();
@@ -137,7 +137,7 @@ public class MainApp extends Application {
         try {
             // Загружаем fxml-файл и создаём новую сцену для всплывающего диалогового окна.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/PersonEditDialog.fxml"));
+            loader.setLocation(MainApp.class.getResource("/view/PersonEditDialog.fxml"));
             loader.setResources(resourceBundle);
             AnchorPane page = loader.load();
 
@@ -171,7 +171,7 @@ public class MainApp extends Application {
     public void showSettings() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/Settings.fxml"));
+            loader.setLocation(MainApp.class.getResource("/view/Settings.fxml"));
             loader.setResources(resourceBundle);
             AnchorPane page = loader.load();
 
